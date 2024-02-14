@@ -1,0 +1,23 @@
+.button {
+  border: 1px solid #4ecca3;
+  color: #4ecca3;
+  border-radius: 15px;
+  height: 40px;
+  background-color: #fff;
+  outline: none;
+  padding-left: 20px;
+  padding-right: 20px;
+  transition: all 0.2s ease-in;
+
+  &:hover {
+    background-color: #4ecca3;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  > svg {
+    width: 17px;
+    height: 17px;
+    background-color: none;
+  }
+}

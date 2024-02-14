@@ -1,0 +1,10 @@
+.cart {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: #393e46;
+
+  &__title {
+    font-size: 24px;
+  }
+}
