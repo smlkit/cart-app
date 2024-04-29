@@ -19,23 +19,27 @@ const Layout = () => {
             >
               Каталог
             </Link>
-            <Link
-              to="/cart"
-              className={styles["navigation__link"]}
-            >
-              <HiOutlineShoppingCart />
-            </Link>
-            <Link
-              to="/favorites"
-              className={styles["navigation__link"]}
-            >
-              <GrFavorite />
-            </Link>
-            {amount > 0 && (
-              <div className={styles["navigation__amount"]}>
-                <p>{amount}</p>
-              </div>
-            )}
+            <div className={styles.sublinks}>
+              <Link
+                to="/favorites"
+                className={styles["navigation__link"]}
+              >
+                <GrFavorite />
+              </Link>
+              <Link
+                to="/cart"
+                className={styles["navigation__link"]}
+              >
+                <HiOutlineShoppingCart />
+              </Link>
+              {amount > 0 && (
+                <div
+                  className={styles["navigation__amount"]}
+                >
+                  <p>{amount}</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </nav>

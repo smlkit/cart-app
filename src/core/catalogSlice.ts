@@ -12,14 +12,17 @@ import {
 } from "../utils/types";
 
 const cartItems =
-  JSON.parse(localStorage.getItem("cart") || "[]") || [];
-const amount = cartItems.length;
-const total = cartItems.reduce(
-  (acc: number, item: ItemType) => acc + item.price,
-  0
-);
+  JSON.parse(localStorage.getItem("cart") || "{}") || {};
+const amount = 0;
+
+const total = 0;
 
 const CATALOG_URL = "https://appevent.ru/dev/task1/catalog";
+
+type CartItem = {
+  item: ItemType;
+  itemAmount: number;
+};
 
 type CatalogState = {
   fetchCatalog: {
@@ -28,7 +31,7 @@ type CatalogState = {
     data: ItemType[];
   };
   cart: {
-    cartItems: ItemType[];
+    cartItems: { [key: string]: CartItem };
     amount: number;
     total: number;
   };
@@ -71,39 +74,54 @@ export const catalogSlice = createSlice({
   reducers: {
     addItem: (state, action: PayloadAction<ItemType>) => {
       const itemId = action.payload.id;
-      const item = state.cart.cartItems.find(
-        (item) => item.id === itemId
-      );
+      const item = state.cart.cartItems[itemId];
       if (!item) {
-        state.cart.cartItems.push(action.payload);
-        const cart =
-          JSON.parse(
-            localStorage.getItem("cart") || "[]"
-          ) || [];
-        cart.push(action.payload);
-        localStorage.setItem("cart", JSON.stringify(cart));
+        state.cart.cartItems[itemId] = {
+          item: action.payload,
+          itemAmount: 1,
+        };
+      } else {
+        item.itemAmount++;
       }
+      state.cart.amount++;
+      state.cart.total += action.payload.price;
+      localStorage.setItem(
+        "cart",
+        JSON.stringify(state.cart.cartItems)
+      );
     },
     removeItem: (state, action: PayloadAction<number>) => {
       const itemId = action.payload;
-      state.cart.cartItems = state.cart.cartItems.filter(
-        (item) => item.id !== itemId
-      );
+      const item = state.cart.cartItems[itemId];
+      if (item.itemAmount > 1) {
+        item.itemAmount--;
+        state.cart.amount--;
+        state.cart.total -= item.item.price;
+      } else {
+        delete state.cart.cartItems[itemId];
+        state.cart.amount -= item.itemAmount;
+        state.cart.total -=
+          item.item.price * item.itemAmount;
+      }
       localStorage.setItem(
         "cart",
         JSON.stringify(state.cart.cartItems)
       );
     },
     calculateTotals: (state) => {
-      let total = 0;
-
-      state.cart.cartItems.forEach((item) => {
-        total += item.price;
-      });
-
-      state.cart.amount = state.cart.cartItems.length;
-      state.cart.total = total;
-      console.log(state.cart.amount, state.cart.total);
+      state.cart.amount = Object.values(
+        state.cart.cartItems
+      ).reduce(
+        (acc, { itemAmount }) => acc + itemAmount,
+        0
+      );
+      state.cart.total = Object.values(
+        state.cart.cartItems
+      ).reduce(
+        (acc, { item, itemAmount }) =>
+          acc + item.price * itemAmount,
+        0
+      );
     },
   },
   extraReducers: (builder) => {

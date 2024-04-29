@@ -10,11 +10,14 @@ export default function Cart() {
 
   return (
     <>
-      {cartItems.length ? (
+      {Object.values(cartItems).length ? (
         <article className={styles.cart}>
           <div>
-            {cartItems.map((item) => (
-              <CartItem key={item.id} item={item} />
+            {Object.values(cartItems).map((item) => (
+              <CartItem
+                key={item.item.id}
+                item={item.item}
+              />
             ))}
           </div>
           <CartTotal total={total} />

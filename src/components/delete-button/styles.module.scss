@@ -1,6 +1,10 @@
 .delete-button {
   border: none;
-  padding: 7px 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  width: 35px;
   background-color: transparent;
   border-radius: 8px;
   color: #ff2e63;

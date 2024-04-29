@@ -3,9 +3,12 @@
   top: 10px;
   left: 10px;
   border: none;
-  padding: 9px 9px;
+  padding: 9px;
   width: min-content;
   height: min-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: transparent;
   border-radius: 8px;
   color: #ff2e63;

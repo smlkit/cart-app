@@ -1,9 +1,18 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { CiCirclePlus } from "react-icons/ci";
+import { CiCircleMinus } from "react-icons/ci";
+import { MdFavorite } from "react-icons/md";
+import { TbShoppingBagPlus } from "react-icons/tb";
 import { ItemType } from "../../utils/types";
-import DeleteButton from "../delete-button";
 import styles from "./styles.module.scss";
 import { removeFavorite } from "../../core/favoritesSlice";
+import {
+  addItem,
+  calculateTotals,
+  cartSelector,
+  removeItem,
+} from "../../core/catalogSlice";
 
 type Props = {
   item: ItemType;
@@ -11,6 +20,21 @@ type Props = {
 
 export default function FavoriteItem({ item }: Props) {
   const dispatch = useDispatch();
+  const { cartItems } = useSelector(cartSelector);
+
+  const findItem = cartItems[item.id];
+
+  const handleAddItem = () => {
+    console.log(cartItems[item.id]);
+    dispatch(addItem(item));
+    dispatch(calculateTotals());
+  };
+
+  const handleRemoveItem = () => {
+    console.log(cartItems[item.id]);
+    dispatch(removeItem(item.id));
+    dispatch(calculateTotals());
+  };
 
   const handleDelete = () => {
     dispatch(removeFavorite(item));
@@ -31,7 +55,42 @@ export default function FavoriteItem({ item }: Props) {
           </p>
         </div>
       </div>
-      <DeleteButton onClick={handleDelete} />
+      <div className={styles["cart-item__actions"]}>
+        {!findItem ? (
+          <button
+            onClick={handleAddItem}
+            className={styles.button}
+          >
+            <p>
+              <TbShoppingBagPlus />
+            </p>
+          </button>
+        ) : (
+          <div className={styles.amount__container}>
+            <button
+              onClick={handleRemoveItem}
+              className={styles.amount}
+            >
+              <CiCircleMinus />
+            </button>
+            <span>
+              <b>{cartItems[item.id].itemAmount}</b>
+            </span>
+            <button
+              onClick={handleAddItem}
+              className={styles.amount}
+            >
+              <CiCirclePlus />
+            </button>
+          </div>
+        )}
+        <button
+          onClick={handleDelete}
+          className={styles["favorite-button"]}
+        >
+          <MdFavorite />
+        </button>
+      </div>
     </div>
   );
 }

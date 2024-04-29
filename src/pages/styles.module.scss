@@ -7,9 +7,16 @@
 .flex {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
   gap: 35px;
   position: relative;
-  width: 165px;
+}
+
+.sublinks {
+  display: flex;
+  align-items: center;
+  gap: 35px;
 }
 
 .navigation {
@@ -37,7 +44,7 @@
     position: absolute;
     background-color: #4ecca3;
     top: -5px;
-    right: -7px;
+    right: -10px;
     width: 20px;
     height: 20px;
     display: flex;
