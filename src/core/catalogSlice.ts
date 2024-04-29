@@ -6,9 +6,13 @@ import {
 import type { PayloadAction } from "@reduxjs/toolkit";
 import axios, { isAxiosError } from "axios";
 import type { RootState } from "./store";
-import { ItemType, StatusOfRequestEnum } from "../utils/types";
+import {
+  ItemType,
+  StatusOfRequestEnum,
+} from "../utils/types";
 
-const cartItems = JSON.parse(localStorage.getItem("cart") || "[]") || [];
+const cartItems =
+  JSON.parse(localStorage.getItem("cart") || "[]") || [];
 const amount = cartItems.length;
 const total = cartItems.reduce(
   (acc: number, item: ItemType) => acc + item.price,
@@ -47,15 +51,19 @@ export const fetchCatalog = createAsyncThunk<
   ItemType[],
   undefined,
   { rejectValue: string }
->("catalog/fetchCatalog", async (_, { rejectWithValue }) => {
-  try {
-    const response = await axios.get(CATALOG_URL);
-    return response.data.items;
-  } catch (error) {
-    if (isAxiosError(error)) return rejectWithValue(error.message);
-    return rejectWithValue("unknown error");
+>(
+  "catalog/fetchCatalog",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(CATALOG_URL);
+      return response.data.items;
+    } catch (error) {
+      if (isAxiosError(error))
+        return rejectWithValue(error.message);
+      return rejectWithValue("unknown error");
+    }
   }
-});
+);
 
 export const catalogSlice = createSlice({
   name: "catalog",
@@ -63,10 +71,15 @@ export const catalogSlice = createSlice({
   reducers: {
     addItem: (state, action: PayloadAction<ItemType>) => {
       const itemId = action.payload.id;
-      const item = state.cart.cartItems.find((item) => item.id === itemId);
+      const item = state.cart.cartItems.find(
+        (item) => item.id === itemId
+      );
       if (!item) {
         state.cart.cartItems.push(action.payload);
-        let cart = JSON.parse(localStorage.getItem("cart") || "[]") || [];
+        const cart =
+          JSON.parse(
+            localStorage.getItem("cart") || "[]"
+          ) || [];
         cart.push(action.payload);
         localStorage.setItem("cart", JSON.stringify(cart));
       }
@@ -76,7 +89,10 @@ export const catalogSlice = createSlice({
       state.cart.cartItems = state.cart.cartItems.filter(
         (item) => item.id !== itemId
       );
-      localStorage.setItem("cart", JSON.stringify(state.cart.cartItems));
+      localStorage.setItem(
+        "cart",
+        JSON.stringify(state.cart.cartItems)
+      );
     },
     calculateTotals: (state) => {
       let total = 0;
@@ -93,18 +109,22 @@ export const catalogSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchCatalog.pending, (state) => {
-        state.fetchCatalog.status = StatusOfRequestEnum.LOADING;
+        state.fetchCatalog.status =
+          StatusOfRequestEnum.LOADING;
         state.fetchCatalog.error = null;
         state.fetchCatalog.data = [];
       })
       .addCase(fetchCatalog.fulfilled, (state, action) => {
-        state.fetchCatalog.status = StatusOfRequestEnum.SUCCESS;
+        state.fetchCatalog.status =
+          StatusOfRequestEnum.SUCCESS;
         state.fetchCatalog.error = null;
         state.fetchCatalog.data = action.payload;
       })
       .addCase(fetchCatalog.rejected, (state, action) => {
-        state.fetchCatalog.error = action.payload || "unknown error";
-        state.fetchCatalog.status = StatusOfRequestEnum.ERROR;
+        state.fetchCatalog.error =
+          action.payload || "unknown error";
+        state.fetchCatalog.status =
+          StatusOfRequestEnum.ERROR;
         state.fetchCatalog.data = [];
       });
   },
@@ -112,12 +132,16 @@ export const catalogSlice = createSlice({
 
 const selfSelector = (state: RootState) => state.catalog;
 
-export const { addItem, removeItem, calculateTotals } = catalogSlice.actions;
+export const { addItem, removeItem, calculateTotals } =
+  catalogSlice.actions;
 
 export const fetchCatalogSelector = createSelector(
   selfSelector,
   (state) => state.fetchCatalog
 );
-export const cartSelector = createSelector(selfSelector, (state) => state.cart);
+export const cartSelector = createSelector(
+  selfSelector,
+  (state) => state.cart
+);
 
 export default catalogSlice.reducer;

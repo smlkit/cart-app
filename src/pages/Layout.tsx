@@ -2,6 +2,7 @@ import { Outlet, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { cartSelector } from "../core/catalogSlice";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
+import { GrFavorite } from "react-icons/gr";
 import styles from "./styles.module.scss";
 
 const Layout = () => {
@@ -12,11 +13,23 @@ const Layout = () => {
       <nav className={styles.navigation}>
         <div className={styles.wrapper}>
           <div className={styles.flex}>
-            <Link to="/" className={styles["navigation__link"]}>
+            <Link
+              to="/"
+              className={styles["navigation__link"]}
+            >
               Каталог
             </Link>
-            <Link to="/cart" className={styles["navigation__link"]}>
+            <Link
+              to="/cart"
+              className={styles["navigation__link"]}
+            >
               <HiOutlineShoppingCart />
+            </Link>
+            <Link
+              to="/favorites"
+              className={styles["navigation__link"]}
+            >
+              <GrFavorite />
             </Link>
             {amount > 0 && (
               <div className={styles["navigation__amount"]}>

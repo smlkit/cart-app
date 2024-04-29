@@ -1,0 +1,19 @@
+.favorite-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  border: none;
+  padding: 9px 9px;
+  width: min-content;
+  height: min-content;
+  background-color: transparent;
+  border-radius: 8px;
+  color: #ff2e63;
+  font-size: 25px;
+  transition: all 0.2s ease-in;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #eeeeee;
+  }
+}
