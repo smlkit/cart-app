@@ -8,3 +8,47 @@
     font-size: 24px;
   }
 }
+
+.total {
+  font-weight: 600;
+  // color: #4ecca3;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input {
+  padding: 10px 15px;
+  width: 250px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: 1px solid #393e46;
+}
+
+.buy {
+  padding: 15px 20px;
+  background-color: #4ecca3;
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  font-weight: 600;
+  font-size: 18px;
+  transition: all 0.2s ease-in;
+
+  &:hover {
+    background-color: #393e46;
+    cursor: pointer;
+  }
+}
+
+.card {
+  display: flex;
+  gap: 10px;
+
+  > input {
+    width: 120px;
+  }
+}

@@ -7,6 +7,7 @@ import {
   calculateTotals,
   cartSelector,
   addItem,
+  clearItem,
 } from "../../core/catalogSlice";
 import { ItemType } from "../../utils/types";
 import DeleteButton from "../delete-button";
@@ -31,7 +32,7 @@ export default function CartItem({ item }: Props) {
   };
 
   const handleClearItem = () => {
-    console.log("clear");
+    dispatch(clearItem(item.id));
   };
 
   return (

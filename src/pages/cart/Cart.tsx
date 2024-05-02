@@ -20,7 +20,10 @@ export default function Cart() {
               />
             ))}
           </div>
-          <CartTotal total={total} />
+          <CartTotal
+            total={total}
+            items={Object.values(cartItems)}
+          />
         </article>
       ) : (
         <div>Корзина пуста</div>

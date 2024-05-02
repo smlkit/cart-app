@@ -11,15 +11,21 @@ import {
   StatusOfRequestEnum,
 } from "../utils/types";
 
-const cartItems =
+const cartItems: { [key: string]: CartItem } =
   JSON.parse(localStorage.getItem("cart") || "{}") || {};
-const amount = 0;
-
-const total = 0;
+const amount = Object.values(cartItems).reduce(
+  (acc, { itemAmount }) => acc + itemAmount,
+  0
+);
+const total = Object.values(cartItems).reduce(
+  (acc, { item, itemAmount }) =>
+    acc + item.price * itemAmount,
+  0
+);
 
 const CATALOG_URL = "https://appevent.ru/dev/task1/catalog";
 
-type CartItem = {
+export type CartItem = {
   item: ItemType;
   itemAmount: number;
 };
@@ -108,6 +114,14 @@ export const catalogSlice = createSlice({
         JSON.stringify(state.cart.cartItems)
       );
     },
+    clearItem: (state, action: PayloadAction<number>) => {
+      const itemId = action.payload;
+      delete state.cart.cartItems[itemId];
+      localStorage.setItem(
+        "cart",
+        JSON.stringify(state.cart.cartItems)
+      );
+    },
     calculateTotals: (state) => {
       state.cart.amount = Object.values(
         state.cart.cartItems
@@ -150,8 +164,12 @@ export const catalogSlice = createSlice({
 
 const selfSelector = (state: RootState) => state.catalog;
 
-export const { addItem, removeItem, calculateTotals } =
-  catalogSlice.actions;
+export const {
+  addItem,
+  removeItem,
+  clearItem,
+  calculateTotals,
+} = catalogSlice.actions;
 
 export const fetchCatalogSelector = createSelector(
   selfSelector,

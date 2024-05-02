@@ -27,13 +27,11 @@ export default function AddButton({
   const findItem = cartItems[item.id];
 
   const handleAddItem = () => {
-    console.log(cartItems[item.id]);
     dispatch(addItem(item));
     dispatch(calculateTotals());
   };
 
   const handleRemoveItem = () => {
-    console.log(cartItems[item.id]);
     dispatch(removeItem(item.id));
     dispatch(calculateTotals());
   };

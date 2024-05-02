@@ -7,8 +7,6 @@ import FavoriteItem from "../../components/favorite-item";
 export default function Favorites() {
   const favorites = useSelector(favoritesSelector);
 
-  //   const dispatch = useThunkDispatch();
-
   return (
     <>
       <h1 className={styles.title}>Избранное</h1>

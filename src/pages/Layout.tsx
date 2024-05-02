@@ -1,7 +1,8 @@
 import { Outlet, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { cartSelector } from "../core/catalogSlice";
-import { HiOutlineShoppingCart } from "react-icons/hi2";
+import { FiShoppingCart } from "react-icons/fi";
+import { AiOutlineUser } from "react-icons/ai";
 import { GrFavorite } from "react-icons/gr";
 import styles from "./styles.module.scss";
 
@@ -21,6 +22,12 @@ const Layout = () => {
             </Link>
             <div className={styles.sublinks}>
               <Link
+                to="/profile"
+                className={styles["navigation__link"]}
+              >
+                <AiOutlineUser />
+              </Link>
+              <Link
                 to="/favorites"
                 className={styles["navigation__link"]}
               >
@@ -30,7 +37,7 @@ const Layout = () => {
                 to="/cart"
                 className={styles["navigation__link"]}
               >
-                <HiOutlineShoppingCart />
+                <FiShoppingCart />
               </Link>
               {amount > 0 && (
                 <div
