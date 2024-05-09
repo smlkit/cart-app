@@ -122,6 +122,15 @@ export const catalogSlice = createSlice({
         JSON.stringify(state.cart.cartItems)
       );
     },
+    clearCart: (state) => {
+      state.cart.cartItems = {};
+      state.cart.total = 0;
+      state.cart.amount = 0;
+      localStorage.setItem(
+        "cart",
+        JSON.stringify(state.cart.cartItems)
+      );
+    },
     calculateTotals: (state) => {
       state.cart.amount = Object.values(
         state.cart.cartItems
@@ -169,6 +178,7 @@ export const {
   removeItem,
   clearItem,
   calculateTotals,
+  clearCart,
 } = catalogSlice.actions;
 
 export const fetchCatalogSelector = createSelector(

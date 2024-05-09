@@ -4,7 +4,10 @@ import {
   HistoryOrderType,
   submitOrder,
 } from "../../core/historySlice";
-import { CartItem } from "../../core/catalogSlice";
+import {
+  CartItem,
+  clearCart,
+} from "../../core/catalogSlice";
 import styles from "./styles.module.scss";
 
 type Props = {
@@ -46,6 +49,7 @@ export default function CartTotal({ total, items }: Props) {
       total,
     };
     dispatch(submitOrder(data));
+    dispatch(clearCart());
   };
 
   return (
